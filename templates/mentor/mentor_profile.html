@@ -1,4 +1,6 @@
-{% extends 'base.html' %}
+
+            {% extends 'base.html' %}
+{% load marketplace_extras %}
 {% block title %}Mentor Profile - {{ mentor.user.get_full_name|default:mentor.user.username }}{% endblock %}
 {% block content %}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
