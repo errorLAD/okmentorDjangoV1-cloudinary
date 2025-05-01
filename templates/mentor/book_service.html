@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Book Service{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-8 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Book Service: {{ service.name }}</h1>
+    <p class="mb-2"><strong>Description:</strong> {{ service.description }}</p>
+    <p class="mb-2"><strong>Mentor:</strong> {{ service.mentor.user.get_full_name|default:service.mentor.user.username }}</p>
+    <p class="mb-2"><strong>Duration:</strong> {{ service.duration_minutes }} minutes</p>
+    <p class="mb-2"><strong>Price:</strong> ₹{{ service.price }}</p>
+    {% if success %}
+    <div class="p-4 mb-4 bg-green-100 border border-green-400 text-green-700 rounded">Booking successful! You will be contacted by your mentor soon.</div>
+{% else %}
+<form method="post">
+        {% csrf_token %}
+        <label class="block font-semibold mb-2">Preferred Date & Time</label>
+        <input type="datetime-local" name="scheduled_time" class="w-full border rounded px-3 py-2 mb-4" required>
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Confirm Booking</button>
+    </form>
+{% endif %}
+</div>
+{% endblock %}

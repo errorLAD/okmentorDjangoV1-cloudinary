@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Terms & Conditions{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-2xl p-12 mb-12">
+        <h1 class="text-4xl font-bold mb-4">Terms & Conditions</h1>
+        <p class="text-xl">Last updated: {{ current_date }}</p>
+    </div>
+
+    <!-- Terms Content -->
+    <div class="space-y-8">
+        <!-- Introduction -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">1. Introduction</h2>
+            <p class="text-gray-600 mb-4">Welcome to okmentor.in! These Terms and Conditions outline the rules and regulations for the use of our website and services. By accessing and using our platform, you agree to be bound by these Terms and Conditions.</p>
+        </div>
+
+        <!-- User Agreement -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">2. User Agreement</h2>
+            <ol class="list-decimal list-inside text-gray-600">
+                <li class="mb-4">By using our platform, you agree to:</li>
+                <li class="mb-4">Provide accurate and complete information</li>
+                <li class="mb-4">Maintain the confidentiality of your account credentials</li>
+                <li class="mb-4">Comply with all applicable laws and regulations</li>
+                <li class="mb-4">Not use the platform for any illegal or unauthorized purposes</li>
+            </ol>
+        </div>
+
+        <!-- Payment Terms -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">3. Payment Terms</h2>
+            <ol class="list-decimal list-inside text-gray-600">
+                <li class="mb-4">All payments are processed through our secure payment gateway</li>
+                <li class="mb-4">Fees are non-refundable unless explicitly stated otherwise</li>
+                <li class="mb-4">We reserve the right to modify our pricing at any time</li>
+                <li class="mb-4">Late payments may incur additional fees</li>
+            </ol>
+        </div>
+
+        <!-- Intellectual Property -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">4. Intellectual Property</h2>
+            <p class="text-gray-600 mb-4">All content on the platform, including text, images, and other materials, is the property of okmentor.in or its licensors. You may not reproduce, distribute, or create derivative works without explicit permission.</p>
+        </div>
+
+        <!-- Privacy Policy -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">5. Privacy Policy</h2>
+            <p class="text-gray-600 mb-4">Your privacy is important to us. Please review our Privacy Policy for details on how we collect, use, and protect your personal information.</p>
+        </div>
+
+        <!-- Dispute Resolution -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">6. Dispute Resolution</h2>
+            <ol class="list-decimal list-inside text-gray-600">
+                <li class="mb-4">Any disputes arising from these Terms and Conditions will be resolved through good faith negotiations</li>
+                <li class="mb-4">If negotiations fail, disputes will be resolved through arbitration in accordance with applicable laws</li>
+            </ol>
+        </div>
+
+        <!-- Modifications to Terms -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">7. Modifications to Terms</h2>
+            <p class="text-gray-600 mb-4">We reserve the right to modify these Terms and Conditions at any time. Continued use of the platform after changes are posted constitutes acceptance of the modified terms.</p>
+        </div>
+
+        <!-- Termination -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">8. Termination</h2>
+            <p class="text-gray-600 mb-4">We reserve the right to terminate or suspend access to our platform at any time, with or without cause, and without prior notice.</p>
+        </div>
+
+        <!-- Governing Law -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4">9. Governing Law</h2>
+            <p class="text-gray-600 mb-4">These Terms and Conditions are governed by and construed in accordance with the laws of your jurisdiction.</p>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
+            <p class="text-gray-600">If you have any questions about these Terms and Conditions, please contact us at:</p>
+            <div class="mt-4 space-y-2">
+                <p class="text-gray-600">Email: support@mentorplatform.com</p>
+                <p class="text-gray-600">Phone: +1-234-567-8900</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

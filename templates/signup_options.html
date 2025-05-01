@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded shadow text-center">
+    <h1 class="text-2xl font-bold mb-6">Sign Up</h1>
+    <a href="{% url 'mentor_signup' %}" class="block bg-blue-600 text-white px-6 py-3 rounded mb-4 hover:bg-blue-700">Sign up as Mentor</a>
+    <a href="{% url 'mentee_signup' %}" class="block bg-green-600 text-white px-6 py-3 rounded mb-4 hover:bg-green-700">Sign up as Mentee</a>
+    <div class="mt-6 text-gray-500">or sign up with</div>
+    <a href="/accounts/google/login/" class="block bg-red-500 text-white px-6 py-3 rounded mt-4 hover:bg-red-600">Google</a>
+    <!-- Add other social providers as needed -->
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Add Digital Product{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Add Digital Product</h1>
+<form method="post" enctype="multipart/form-data" class="max-w-lg mx-auto bg-white p-8 rounded shadow">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="mb-4">
+        <label class="block font-semibold mb-1">Name</label>
+        <input type="text" name="name" value="{{ form.name.value|default:'' }}" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+        {{ form.name.errors }}
+    </div>
+    <div class="mb-4">
+        <label class="block font-semibold mb-1">Description</label>
+        <textarea name="description" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3">{{ form.description.value|default:'' }}</textarea>
+        {{ form.description.errors }}
+    </div>
+    <div class="mb-4">
+        <label class="block font-semibold mb-1">Price</label>
+        <input type="number" name="price" value="{{ form.price.value|default:'' }}" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" required min="0" step="0.01">
+        {{ form.price.errors }}
+    </div>
+    *Add the file if it's free so the user can download it
+    <div class="mb-4">
+        <label class="block font-semibold mb-1">File (optional)</label>
+        <input type="file" name="file" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        {{ form.file.errors }}
+    </div>
+    <div class="mb-4">
+        <label class="block font-semibold mb-1">Delivery Instructions (if not a file)</label>
+        <textarea name="delivery_instructions" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500" rows="2">{{ form.delivery_instructions.value|default:'' }}</textarea>
+        {{ form.delivery_instructions.errors }}
+    </div>
+    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 w-full">Save Product</button>
+</form>
+{% endblock %}

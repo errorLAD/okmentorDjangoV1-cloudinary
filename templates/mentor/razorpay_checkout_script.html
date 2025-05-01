@@ -1,0 +1,29 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<button id="rzp-button" class="bg-orange-600 text-white px-4 py-2 rounded">Pay with Razorpay</button>
+<script>
+var options = {
+    "key": "{{ razorpay_key_id }}",
+    "amount": "{{ amount }}",
+    "currency": "INR",
+    "name": "Mentorship Platform",
+    "description": "{{ description }}",
+    "order_id": "{{ razorpay_order_id }}",
+    "handler": function (response){
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{{ callback_url }}";
+        form.innerHTML = '{% csrf_token %}' +
+            '<input type="hidden" name="razorpay_payment_id" value="' + response.razorpay_payment_id + '" />' +
+            '<input type="hidden" name="razorpay_order_id" value="' + response.razorpay_order_id + '" />' +
+            '<input type="hidden" name="razorpay_signature" value="' + response.razorpay_signature + '" />';
+        document.body.appendChild(form);
+        form.submit();
+    },
+    "theme": {"color": "#0d8abc"}
+};
+document.getElementById('rzp-button').onclick = function(e){
+    var rzp = new Razorpay(options);
+    rzp.open();
+    e.preventDefault();
+}
+</script>

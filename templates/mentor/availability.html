@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Manage Availability{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Manage Availability</h1>
+<form method="post" class="bg-white p-6 rounded shadow max-w-lg mx-auto mb-8">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="mb-4">
+        <label class="block font-semibold mb-1">Start Time</label>
+        {{ form.start_time }}
+        {{ form.start_time.errors }}
+    </div>
+    <div class="mb-4">
+        <label class="block font-semibold mb-1">End Time</label>
+        {{ form.end_time }}
+        {{ form.end_time.errors }}
+    </div>
+    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Add Slot</button>
+</form>
+<h2 class="text-xl font-semibold mb-2">Your Availability Slots</h2>
+{% if slots %}
+  <ul class="space-y-2">
+    {% for slot in slots %}
+      <li class="bg-gray-100 p-4 rounded flex justify-between items-center">
+        <span>{{ slot.start_time|date:"Y-m-d H:i" }} to {{ slot.end_time|date:"Y-m-d H:i" }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="bg-white p-6 rounded shadow text-gray-500 text-center">No availability slots yet.</div>
+{% endif %}
+{% endblock %}

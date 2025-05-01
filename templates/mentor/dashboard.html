@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Mentor Dashboard{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Mentor Dashboard</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <a href="/mentor/services/" class="block p-6 bg-white rounded shadow hover:bg-blue-50 transition">
+        <div class="font-semibold text-lg">Manage Services</div>
+        <div class="text-gray-600">Add, edit, or delete your offered services</div>
+    </a>
+    <a href="/mentor/availability/" class="block p-6 bg-white rounded shadow hover:bg-blue-50 transition">
+        <div class="font-semibold text-lg">Set Availability</div>
+        <div class="text-gray-600">Manage your available slots for bookings</div>
+    </a>
+    <a href="/mentor/bookings/" class="block p-6 bg-white rounded shadow hover:bg-blue-50 transition">
+        <div class="font-semibold text-lg">View Bookings</div>
+        <div class="text-gray-600">See upcoming and past sessions</div>
+    </a>
+    <a href="/mentor/analytics/" class="block p-6 bg-white rounded shadow hover:bg-blue-50 transition">
+        <div class="font-semibold text-lg">Analytics</div>
+        <div class="text-gray-600">Track your earnings, sessions, and feedback</div>
+    </a>
+    <a href="/mentor/digital-products/" class="block p-6 bg-white rounded shadow hover:bg-purple-50 transition">
+        <div class="font-semibold text-lg">Manage Digital Products</div>
+        <div class="text-gray-600">Add, edit, or delete digital products you offer</div>
+    </a>
+    <a href="/digital-products/" class="block p-6 bg-white rounded shadow hover:bg-purple-50 transition">
+        <div class="font-semibold text-lg">View/Buy Digital Products</div>
+        <div class="text-gray-600">See all digital products available for purchase</div>
+    </a>
+</div>
+{% endblock %}

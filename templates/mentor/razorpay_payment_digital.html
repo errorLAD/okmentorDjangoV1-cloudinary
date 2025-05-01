@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Razorpay Payment{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-8 rounded shadow mt-10">
+    <h1 class="text-2xl font-bold mb-4">Pay with Razorpay</h1>
+    <div class="mb-4">
+        <span class="font-semibold">Product:</span> {{ order.product.name }}<br>
+        <span class="font-semibold">Mentor:</span> {{ order.product.mentor.user.username }}<br>
+        <span class="font-semibold">Purchased At:</span> {{ order.purchased_at|date:"Y-m-d H:i" }}<br>
+        <span class="font-semibold">Amount:</span> ₹{{ order.product.price }}
+    </div>
+    {% include 'mentor/razorpay_checkout_script.html' %}
+    <a href="{% url 'user_order_history' %}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition mt-4">Back to Order History</a>
+</div>
+{% endblock %}

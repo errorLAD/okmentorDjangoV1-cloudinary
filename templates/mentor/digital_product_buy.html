@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Purchase Confirmation{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-8 rounded shadow mt-10">
+    <h1 class="text-2xl font-bold mb-4">Thank you for your purchase!</h1>
+    <div class="mb-4">
+        <span class="font-semibold">Product:</span> {{ product.name }}
+    </div>
+    <div class="mb-4">
+        <span class="font-semibold">Price:</span> ${{ product.price }}
+    </div>
+    {% if product.file %}
+        <div class="mb-4">
+            <a href="{{ product.file.url }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition" download>Download Your Product</a>
+        </div>
+    {% else %}
+        <div class="mb-4 text-gray-700">
+            <span class="font-semibold">Delivery Instructions:</span><br>
+            {{ product.delivery_instructions|linebreaksbr|default:'The owner will contact you soon to deliver your product.' }}
+        </div>
+    {% endif %}
+    <a href="/digital-products/" class="text-blue-600 hover:underline">Back to Products</a>
+</div>
+{% endblock %}

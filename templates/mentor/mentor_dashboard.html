@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}okdelhi.in{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Mentor Dashboard</h1>
+    <style>
+        @media (max-width: 640px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                margin-bottom: 2rem;
+            }
+            .action-card {
+                margin-bottom: 1rem;
+            }
+            .action-card h3 {
+                font-size: 1.1rem;
+            }
+            .action-card p {
+                font-size: 0.9rem;
+            }
+            .action-card svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 dashboard-grid">
+    <style>
+        @media (max-width: 640px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+    <!-- Quick Actions -->
+    <div class="col-span-1 md:col-span-2 lg:col-span-3 quick-actions">
+        <div class="bg-white rounded-lg shadow p-6">
+          
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 actions-grid">
+                <a href="/mentor/services/" class="block p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition action-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg text-blue-700">Manage Services</h3>
+                            <p class="text-gray-600">Add, edit, or delete your offered services</p>
+                        </div>
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="/mentor/availability/" class="block p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg text-blue-700">Set Availability</h3>
+                            <p class="text-gray-600">Manage your available slots for bookings</p>
+                        </div>
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="/mentor/bookings/" class="block p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg text-blue-700">View Bookings</h3>
+                            <p class="text-gray-600">See upcoming and past sessions</p>
+                        </div>
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="/mentor/analytics/" class="block p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg text-blue-700">Analytics</h3>
+                            <p class="text-gray-600">Track your earnings, sessions, and feedback</p>
+                        </div>
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="/mentor/digital-products/" class="block p-6 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg text-purple-700">Manage Digital Products</h3>
+                            <p class="text-gray-600">Add, edit, or delete digital products you offer</p>
+                        </div>
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                </a>
+                <a href="/digital-products/" class="block p-6 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg text-purple-700">View Digital Products</h3>
+                            <p class="text-gray-600">See all digital products available for purchase</p>
+                        </div>
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

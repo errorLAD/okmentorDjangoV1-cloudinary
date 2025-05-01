@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Booking Details{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <a href="{% url 'mentor_bookings' %}" class="text-sm text-gray-500 hover:text-gray-700">
+                    <svg class="w-5 h-5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Bookings
+                </a>
+                <h1 class="text-3xl font-bold mt-2">Booking Details</h1>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Service Information -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-4">Service Information</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Service Name</span>
+                        <span class="font-medium">{{ booking.service.name }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Duration</span>
+                        <span class="font-medium">{{ booking.service.duration_minutes }} minutes</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Price</span>
+                        <span class="font-medium">₹{{ booking.service.price }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Scheduled Time</span>
+                        <span class="font-medium">{{ booking.scheduled_time|date:"F j, Y g:i A" }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Payment Status</span>
+                        <span class="font-medium {% if booking.payment_status == 'paid' %}text-green-600{% else %}text-yellow-600{% endif %}">
+                            {{ booking.payment_status|title }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mentee Information -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-xl font-semibold mb-4">Mentee Information</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Name</span>
+                        <span class="font-medium">{{ booking.user.get_full_name }}</span>
+                    </div>
+                
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Email</span>
+                        <span class="font-medium">{{ booking.user.email }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Booked On</span>
+                        <span class="font-medium">{{ booking.created_at|date:"F j, Y g:i A" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

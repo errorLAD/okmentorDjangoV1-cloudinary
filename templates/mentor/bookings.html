@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">My Bookings</h1>
+            <div class="flex space-x-4">
+                <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Export CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-blue-50 p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Total Bookings</h3>
+                        <p class="text-3xl font-semibold text-blue-600">{{ bookings|length|default:0 }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-green-50 p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Paid Bookings</h3>
+                        <p class="text-3xl font-semibold text-green-600">{{ bookings|length|default:0 }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-yellow-50 p-6 rounded-lg shadow">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707" />
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-sm font-medium text-gray-500">Pending Bookings</h3>
+                        <p class="text-3xl font-semibold text-yellow-600">{{ bookings|length|default:0 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Bookings Section -->
+        {% if bookings %}
+        <div class="bg-gray-50 p-6 rounded-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4">Service Bookings</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for booking in bookings %}
+                <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-semibold">{{ booking.service.name }}</h3>
+                            <p class="text-gray-600">With {{ booking.user.username }}</p>
+                            <p class="mt-2 text-sm text-gray-500">Scheduled: {{ booking.scheduled_time|date:"F j, Y g:i A" }}</p>
+                            <p class="mt-2 text-sm text-gray-500">Duration: {{ booking.service.duration_minutes }} minutes</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 rounded-full text-sm {% if booking.payment_status == 'paid' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {{ booking.payment_status|title }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">₹{{ booking.service.price }}</span>
+                            <span class="text-sm text-gray-500">•</span>
+                            <span class="text-sm text-gray-500">{{ booking.created_at|timesince }} ago</span>
+                        </div>
+                        <div class="mt-2">
+                            <a href="{% url 'booking_detail' booking.id %}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Digital Product Orders Section -->
+        {% if digital_orders %}
+        <div class="bg-gray-50 p-6 rounded-lg mb-8">
+            <h2 class="text-xl font-semibold mb-4">Digital Product Orders</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for order in digital_orders %}
+                <div class="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-semibold">{{ order.product.name }}</h3>
+                            <p class="text-gray-600">From {{ order.user.username }}</p>
+                            <p class="mt-2 text-sm text-gray-500">Purchased: {{ order.purchased_at|date:"F j, Y g:i A" }}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="px-3 py-1 rounded-full text-sm {% if order.product.file %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {% if order.product.file %}Downloadable{% else %}Manual Delivery{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">₹{{ order.product.price }}</span>
+                            <span class="text-sm text-gray-500">•</span>
+                            <span class="text-sm text-gray-500">{{ order.created_at|timesince }} ago</span>
+                        </div>
+                        <div class="mt-2 flex space-x-2">
+                            {% if order.product.file %}
+                            <a href="{{ order.product.file.url }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" download>
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Download
+                            </a>
+                            {% endif %}
+                            <a href="{% url 'digital_order_detail' order.id %}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Empty State -->
+        {% if not bookings and not digital_orders %}
+        <div class="bg-white p-8 rounded-lg text-center">
+            <div class="max-w-md mx-auto">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No Bookings Yet</h3>
+                <p class="mt-1 text-sm text-gray-500">You haven't received any bookings or digital product orders yet. Start promoting your services and products to get your first booking!</p>
+                <div class="mt-6">
+                    <a href="{% url 'service_list' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Manage Services
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

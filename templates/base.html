@@ -1,0 +1,234 @@
+{% load marketplace_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OkDelhi.in - Your trusted mentorship platform connecting mentors and mentees">
+    <meta name="keywords" content="mentorship, learning, education, professional development, career guidance">
+    <meta name="author" content="OkDelhi.in">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://okdelhi.in/">
+    <meta property="og:title" content="OkDelhi.in - Mentorship Platform">
+    <meta property="og:description" content="Your trusted mentorship platform connecting mentors and mentees">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://okdelhi.in/">
+    <meta property="twitter:title" content="OkDelhi.in - Mentorship Platform">
+    <meta property="twitter:description" content="Your trusted mentorship platform connecting mentors and mentees">
+   
+    <title>{% block title %}OkDelhi.in - Mentorship Platform{% endblock %}</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <style>
+        @media (max-width: 640px) {
+            /* Mobile Navigation */
+            .mobile-menu {
+                display: block;
+            }
+            .desktop-menu {
+                display: none;
+            }
+            .nav-links {
+                display: none;
+            }
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .nav-links.active a {
+                width: 100%;
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+            
+            /* Main Content */
+            .main-content {
+                padding: 1rem;
+            }
+            
+            /* Footer */
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .footer-grid > div {
+                margin: 1rem 0;
+            }
+            
+            /* Forms */
+            .form-group {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            /* Buttons */
+            .btn-mobile {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+    <nav class=" sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex-shrink-0 flex items-center">
+            <a href="/" class="text-2xl font-extrabold text-blue-600">
+              <img src="https://iili.io/3XFNMXe.md.png" alt="Family" class="w-30 h-20">
+            </a>
+          </div>
+          <div class="hidden md:flex md:items-center md:space-x-4">
+            <span class="ml-4 mr-4">Hello {{ user.username }}</span>
+            <a href="{% url 'mentor_list' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse Mentors</a>
+            {% if user.is_authenticated %}
+              {% if request.user|is_mentor %}
+                <a href="{% url 'mentor_dashboard' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Mentor Dashboard</a>
+              {% endif %}
+
+              <a href="{% url 'user_order_history' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Order History</a>
+              <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Logout</button>
+              </form>
+            {% else %}
+              <a href="{% url 'login' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Login</a>
+              <a href="{% url 'mentee_signup' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Sign Up</a>
+              <a href="{% url 'mentor_signup' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Become a Mentor</a>
+            {% endif %}
+          </div>
+          <!-- Mobile menu button -->
+          <div class="flex md:hidden">
+            <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-expanded="false">
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Mobile menu, show/hide based on menu state. -->
+      <div class="md:hidden hidden" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <span class="block ml-1 mr-1">Hello, {{ user.username }}</span>
+          <a href="{% url 'mentor_list' %}" class="block bg-blue-50 text-gray-800 px-4 py-2 rounded hover:bg-blue-700 transition mb-2">Browse Mentors</a>
+          
+          {% if user.is_authenticated %}
+            {% if request.user|is_mentor %}
+              <a href="{% url 'mentor_dashboard' %}" class="block bg-purple-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Mentor Dashboard</a>
+            {% endif %}
+          
+            <a href="{% url 'user_order_history' %}" class="block bg-purple-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Order History</a>
+            <form method="post" action="{% url 'logout' %}" class="mb-2">
+              {% csrf_token %}
+              <button type="submit" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Logout</button>
+            </form>
+          {% else %}
+            <a href="{% url 'mentor_signup' %}" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Become a Mentor</a>
+            <a href="{% url 'login' %}" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Login</a>
+            <a href="{% url 'mentee_signup' %}" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Sign Up</a>
+          {% endif %}
+        </div>
+      </div>
+      <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+          const menuButton = document.getElementById('mobile-menu-button');
+          const mobileMenu = document.getElementById('mobile-menu');
+          menuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+          });
+        });
+      </script>
+    </nav>
+    <main class="flex-1 container mx-auto py-8">
+        {% block content %}{% endblock %}
+    </main>
+<!-- Redesigned Footer -->
+<footer class="bg-gray-900 text-gray-200 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Company Info -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">okmentor.in</h3>
+                <p class="text-gray-400 mb-4">okmentor.in  Connect with top professionals for 1:1 mentorship sessions and accelerate your growth.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.954 4.569c-.888.389-1.83.654-2.825.775 1.014-.609 1.795-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.897-.959-2.173-1.559-3.591-1.559-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.445 3.379 4.605 3.419-3.368-.344-6.582-1.853-8.893-4.42 1.114.212 2.278.345 3.49.345 2.009 0 3.843-.99 5.098-2.636C14.91 14.753 18.81 18 23.05 18c3.626 0 6.838-2.922 6.838-6.837 0-.988-.111-1.956-.32-2.871z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0C8.749 0 8.333.015 7.053.07 3.808.222.795 2.503.795 5.92c0 1.034.275 1.995.833 2.882-.03.077-.043.158-.043.24 0 2.986 2.239 5.401 5.098 5.921-.578.163-1.188.248-1.81.248-.423 0-.818-.06-1.188-.178.801 2.598 3.03 4.417 5.741 4.417-2.082 1.649-4.518 2.691-7.23 2.691-.453 0-.9.03-.9.03-.221-.325-.357-.85-.146-1.23.641-.706 1.08-1.715 1.08-2.782 0-.276-.01-.55-.01-.824 0-.814.283-1.546.722-2.13l-.01-.002c-2.378-.523-4.25-2.424-4.25-4.853 0-2.77 2.229-5 5-5 1.396 0 2.638.56 3.5 1.47-.538-.017-1.045-.165-1.48-.41v-.02c2.298-.278 4.239-2.06 4.239-4.44 0-2.48-1.935-4.5-4.285-4.5z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'home' %}" class="text-gray-400 hover:text-white transition">Home</a></li>
+                    <li><a href="{% url 'about' %}" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                    <li><a href="{% url 'mentor_list' %}" class="text-gray-400 hover:text-white transition">Find a Mentor</a></li>
+                    <li><a href="{% url 'terms' %}" class="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
+                    <li><a href="{% url 'privacy' %}" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <!-- Additional Links -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">More</h3>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'about' %}" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                    <li><a href="{% url 'terms' %}" class="text-gray-400 hover:text-white transition">Terms & Conditions</a></li>
+                    <li><a href="{% url 'privacy' %}" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                <ul class="space-y-2">
+                    <li><a href="mailto:ab.mishra@yahoo.com" class="text-gray-400 hover:text-white transition">ab.mishra@yahoo.com</a></li>
+                   <li><a href="#" class="text-gray-400 hover:text-white transition">Noida, Uttar pradesh,  India</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div>
+                <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                <p class="text-gray-400 mb-4">Stay updated with our latest news and offers.</p>
+                <form class="flex flex-col sm:flex-row gap-2">
+                    <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+            <p class="text-gray-400"> 2025 okmentor.in. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

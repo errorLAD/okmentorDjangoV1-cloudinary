@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% block title %}Mentor Profile - {{ mentor.user.get_full_name|default:mentor.user.username }}{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <style>
+        .no-space {
+            letter-spacing: -0.05em;
+        }
+        @media (max-width: 640px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .profile-header .flex {
+                gap: 4;
+            }
+            .profile-image {
+                margin: 0 auto;
+                margin-bottom: 1rem;
+            }
+            .profile-header .ml-6 {
+                margin-left: 0;
+                text-align: center;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .social-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .social-links svg {
+                width: 32px;
+                height: 32px;
+            }
+            .book-button {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+    <style>
+        .no-space {
+            letter-spacing: -0.05em;
+        }
+        @media (max-width: 640px) {
+            .profile-header {
+                flex-direction: column;
+            }
+            .profile-header .flex {
+                gap: 4;
+            }
+            .profile-image {
+                margin: 0 auto;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <style>
+        .no-space {
+            letter-spacing: -0.00em;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.0rem;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            background-color: #f3f4f6;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+        @media (max-width: 640px) {
+            .tag {
+                padding: 0.2rem 0.4rem;
+                font-size: 0.8125rem;
+            }
+        }
+    </style>
+    <!-- Profile Header -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="p-6 profile-header">
+            <!-- Profile Image -->
+            <div class="flex items-center justify-between profile-header">
+                <div class="flex items-center">
+                    <div class="w-32 h-32 relative profile-image">
+                        {% if mentor.profile_image %}
+                            <img src="{{ mentor.profile_image.url }}" alt="Profile Image" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100">
+                        {% else %}
+                            <img src="https://ui-avatars.com/api/?name={{ mentor.user.get_full_name|default:mentor.user.username|urlencode }}&background=0D8ABC&color=fff&size=256" alt="Default Avatar" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100">
+                        {% endif %}
+                    </div>
+                    <div class="ml-6">
+                        <h1 class="text-3xl font-bold text-gray-900">{{ mentor.user.get_full_name|default:mentor.user.username }}</h1>
+                        {% if mentor.category %}
+                            <p class="text-lg text-blue-600 font-semibold mt-1">{{ mentor.category }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if request.user.is_authenticated and not request.user == mentor.user %}
+                    <a href="{% url 'book_service' service_id=services.0.id %}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition book-button">
+                        Book Session
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- Bio and Tags -->
+            <div class="mt-6">
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-2">About Me</h2>
+                    <p class="text-gray-600">{{ mentor.bio|default:'No bio available' }}</p>
+                </div>
+
+              <!-- Expertise Tags -->
+<div class="mb-6">
+  <h2 class="text-lg font-semibold text-gray-700 mb-2">Expertise</h2>
+  {% if mentor.expertise_tags %}
+      <div class="tag-container">
+          {% for tag in mentor.expertise_tags|split_by_comma %}
+              <span class="tag no-space">
+                  {{ tag }}
+              </span>
+          {% endfor %}
+      </div>
+  {% else %}
+      <p class="text-gray-400">No expertise tags added</p>
+  {% endif %}
+</div>
+
+<!-- Domains Tags -->
+<div class="mb-6">
+  <h2 class="text-lg font-semibold text-gray-700 mb-2">Domains</h2>
+  {% if mentor.domains %}
+      <div class="tag-container">
+          {% for domain in mentor.domains|split_by_comma %}
+              <span class="tag no-space">
+                  {{ domain }}
+              </span>
+          {% endfor %}
+      </div>
+  {% else %}
+      <p class="text-gray-400">No domains specified</p>
+  {% endif %}
+</div>
+
+
+                <!-- Services -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-4">Available Services</h2>
+                    {% if services %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 products-grid">
+                            {% for service in services %}
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h3 class="font-medium text-gray-900">{{ service.name }}</h3>
+                                    <p class="text-gray-600 mt-1">{{ service.description }}</p>
+                                    <div class="mt-2 flex justify-between items-center">
+                                        <span class="text-gray-600">Duration: {{ service.duration_minutes }} minutes</span>
+                                        <span class="font-medium text-blue-600">₹{{ service.price }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-400">No services available</p>
+                    {% endif %}
+                </div>
+
+                <!-- Digital Products -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-4">Digital Products</h2>
+                    {% if digital_products %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 products-grid">
+                            {% for product in digital_products %}
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h3 class="font-medium text-gray-900">{{ product.name }}</h3>
+                                    <p class="text-gray-600 mt-1">{{ product.description }}</p>
+                                    <div class="mt-2 flex justify-between items-center">
+                                        <span class="text-gray-600">₹{{ product.price }}</span>
+                                        <a href="{% url 'digital_product_buy' product.id %}" class="text-blue-600 hover:text-blue-800">Buy Now</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-400">No digital products available</p>
+                    {% endif %}
+                </div>
+
+                <!-- Social Links -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-700 mb-4">Connect With Me</h2>
+                    <div class="flex space-x-4 social-links">
+                        {% if mentor.linkedin_url %}
+                            <a href="{{ mentor.linkedin_url }}" target="_blank" class="text-gray-600 hover:text-gray-900">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-8 12.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9zm0-11.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/>
+                                </svg>
+                            </a>
+                        {% endif %}
+                        {% if mentor.google_scholar_url %}
+                            <a href="{{ mentor.google_scholar_url }}" target="_blank" class="text-gray-600 hover:text-gray-900">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c-.76 0-1.44.3-1.96.77l-2.09 2.09c-1.17-.88-2.68-1.4-4.38-1.4-3.87 0-7 3.13-7 7s3.13 7 7 7c1.7 0 3.2-.52 4.38-1.4l2.09 2.09c.47.47 1.2.77 1.96.77s1.49-.3 1.96-.77l2.09-2.09c1.17.88 2.68 1.4 4.38 1.4 3.87 0 7-3.13 7-7s-3.13-7-7-7c-1.7 0-3.2.52-4.38 1.4l-2.09-2.09c-.47-.47-1.2-.77-1.96-.77s-1.49.3-1.96.77l-2.09 2.09c-1.17-.88-2.68-1.4-4.38-1.4-3.87 0-7 3.13-7 7s3.13 7 7 7c1.7 0 3.2-.52 4.38-1.4l2.09 2.09c.47.47 1.2.77 1.96.77z"/>
+                                </svg>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
