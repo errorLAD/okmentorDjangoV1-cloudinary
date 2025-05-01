@@ -94,10 +94,9 @@
             <span class="ml-4 mr-4">Hello {{ user.username }}</span>
             <a href="{% url 'mentor_list' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Browse Mentors</a>
             {% if user.is_authenticated %}
-                 {% if user|is_mentor %}
+              {% if user|is_mentor %}
                 <a href="{% url 'mentor_dashboard' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Mentor Dashboard</a>
               {% endif %}
-
 
               <a href="{% url 'user_order_history' %}" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Order History</a>
               <form method="post" action="{% url 'logout' %}" style="display:inline;">
@@ -127,19 +126,17 @@
           <a href="{% url 'mentor_list' %}" class="block bg-blue-50 text-gray-800 px-4 py-2 rounded hover:bg-blue-700 transition mb-2">Browse Mentors</a>
           
           {% if user.is_authenticated %}
-            {% if request.user|is_mentor %}
-              <a href="{% url 'mentor_dashboard' %}" class="block bg-purple-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Mentor Dashboard</a>
+            {% if user|is_mentor %}
+              <a href="{% url 'mentor_dashboard' %}" class="block bg-blue-50 text-gray-800 px-4 py-2 rounded hover:bg-blue-700 transition mb-2">Mentor Dashboard</a>
             {% endif %}
-          
-            <a href="{% url 'user_order_history' %}" class="block bg-purple-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Order History</a>
-            <form method="post" action="{% url 'logout' %}" class="mb-2">
+            <a href="{% url 'user_order_history' %}" class="block bg-blue-50 text-gray-800 px-4 py-2 rounded hover:bg-blue-700 transition mb-2">Order History</a>
+            <form method="post" action="{% url 'logout' %}" class="block">
               {% csrf_token %}
-              <button type="submit" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Logout</button>
+              <button type="submit" class="block bg-red-50 text-red-800 px-4 py-2 rounded hover:bg-red-700 transition mb-2">Logout</button>
             </form>
           {% else %}
-            <a href="{% url 'mentor_signup' %}" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Become a Mentor</a>
-            <a href="{% url 'login' %}" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Login</a>
-            <a href="{% url 'mentee_signup' %}" class="block bg-gray-50 text-gray-800 px-4 py-2 rounded hover:bg-purple-700 transition mb-2">Sign Up</a>
+            <a href="{% url 'login' %}" class="block bg-blue-50 text-gray-800 px-4 py-2 rounded hover:bg-blue-700 transition mb-2">Login</a>
+            <a href="{% url 'signup_options' %}" class="block bg-blue-50 text-gray-800 px-4 py-2 rounded hover:bg-blue-700 transition mb-2">Sign Up</a>
           {% endif %}
         </div>
       </div>
