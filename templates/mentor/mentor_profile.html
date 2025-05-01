@@ -111,8 +111,8 @@
                         {% endif %}
                     </div>
                 </div>
-                {% if request.user.is_authenticated and not request.user == mentor.user %}
-                    <a href="{% url 'book_service' service_id=services.0.id %}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition book-button">
+                {% if request.user.is_authenticated and not request.user == mentor.user and services %}
+                    <a href="{% url 'book_service' service_id=services.0.id|stringformat:'d' %}" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition book-button">
                         Book Session
                     </a>
                 {% endif %}
@@ -164,17 +164,19 @@
                     {% if services %}
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 products-grid">
                             {% for service in services %}
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <h3 class="font-medium text-gray-900">{{ service.name }}</h3>
-                                    <p class="text-gray-600 mt-1">{{ service.description }}</p>
-                                    <div class="mt-2 flex justify-between items-center">
-                                        <span class="text-gray-600">Duration: {{ service.duration_minutes }} minutes</span>
-                                        <div class="flex items-center gap-2">
-                                            <span class="font-medium text-blue-600">₹{{ service.price }}</span>
-                                            <a href="{% url 'book_service' service_id=service.id|stringformat:'d' %}" class="text-blue-600 hover:text-blue-800">Book Now</a>
+                                {% if service.id and service.id|length > 0 %}
+                                    <div class="bg-gray-50 p-4 rounded-lg">
+                                        <h3 class="font-medium text-gray-900">{{ service.name }}</h3>
+                                        <p class="text-gray-600 mt-1">{{ service.description }}</p>
+                                        <div class="mt-2 flex justify-between items-center">
+                                            <span class="text-gray-600">Duration: {{ service.duration_minutes }} minutes</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="font-medium text-blue-600">₹{{ service.price }}</span>
+                                                <a href="{% url 'book_service' service_id=service.id|stringformat:'d' %}" class="text-blue-600 hover:text-blue-800">Book Now</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     {% else %}
