@@ -2,12 +2,13 @@ from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView, LoginView
 from django.views.generic import RedirectView
+from .book_service_view import book_service
 
 # Remove RedirectView for /signup/ and add mentee_signup placeholder
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
-    path('book/service/<int:service_id>/', views.book_service, name='book_service'),
+    path('book/service/<int:service_id>/', book_service, name='book_service'),
     path('', views.home, name='home'),
     path('mentors/', views.mentor_list, name='mentor_list'),
     path('mentors/<str:username>/', views.mentor_profile, name='mentor_profile'),

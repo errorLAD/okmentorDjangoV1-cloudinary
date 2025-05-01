@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import MentorProfile, Service, Booking, DigitalProduct, DigitalProductOrder
 from .book_service_view import book_service
 from .forms import MentorSignupForm, ServiceForm, AvailabilitySlotForm, MenteeSignupForm, DigitalProductForm, MentorProfileForm
@@ -190,7 +191,21 @@ from django.shortcuts import get_object_or_404
 
 @login_required
 def mentor_dashboard(request):
-    return render(request, 'mentor/mentor_dashboard.html')
+    # Only allow users who are mentors
+    if not hasattr(request.user, 'mentorprofile') or not request.user.mentorprofile.is_mentor:
+        return redirect('home')
+    
+    # Get mentor profile
+    mentor = request.user.mentorprofile
+    
+    # Calculate statistics
+    total_sessions = Booking.objects.filter(mentor=mentor).count()
+    upcoming_sessions = Booking.objects.filter(mentor=mentor, scheduled_time__gt=timezone.now()).count()
+    
+    return render(request, 'mentor/mentor_dashboard.html', {
+        'total_sessions': total_sessions,
+        'upcoming_sessions': upcoming_sessions
+    })
 
 @login_required
 def booking_detail(request, booking_id):
@@ -411,8 +426,16 @@ from django.shortcuts import get_object_or_404
 
 def mentor_profile(request, username):
     mentor = get_object_or_404(MentorProfile, user__username=username, is_mentor=True)
-    services = mentor.services.all()
-    digital_products = mentor.digital_products.all()
+    services = Service.objects.filter(mentor=mentor).prefetch_related('mentor')
+    digital_products = DigitalProduct.objects.filter(mentor=mentor).prefetch_related('mentor')
+    
+    # Convert querysets to lists to ensure we have actual objects
+    services = list(services)
+    digital_products = list(digital_products)
+    
+    # Filter out any services that don't have an ID
+    services = [s for s in services if s.id and str(s.id).isdigit()]
+    
     return render(request, 'mentor/mentor_profile.html', {
         'mentor': mentor,
         'services': services,
